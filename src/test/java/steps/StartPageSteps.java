@@ -27,6 +27,12 @@ public class StartPageSteps {
         logger.info(String.format("Высота окна: %d", WindowHelper.getWindowSize().getHeight()));
     }
 
+    public List<Link> getSublistAppliances(){
+        return startPage.subcategories();
+    }
+    public List<Link> getSublistCooking(){
+        return startPage.popupCooking();
+    }
     //если появляется окно выбора города (может скрывать Бытовую технику), нажимаем на кнопку согласия
     public void confirmCity(){
         try{
@@ -49,6 +55,18 @@ public class StartPageSteps {
         catch (ElementClickInterceptedException e){
             confirmCity();
             startPage.householdAppliances().click();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void goToLaptopsPage(){
+        try{
+            startPage.laptops().click();
+        }
+        catch (ElementClickInterceptedException e){
+            confirmCity();
+            startPage.laptops().click();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -78,11 +96,21 @@ public class StartPageSteps {
             e.printStackTrace();
         }
     }
-    public List<Link> getSublistAppliances(){
-        return startPage.subcategories();
+    public void focusOnComputersPeripherals(){
+        try{
+            startPage.computersPeripherals().focusOnLink();
+        }
+        catch (ElementNotInteractableException e){
+            confirmCity();
+            startPage.computersPeripherals().focusOnLink();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
-    public List<Link> getSublistCooking(){
-        return startPage.popupCooking();
+    public void focusAndClickCooking(){
+        focusOnCooking();
+        startPage.cooking().click();
     }
     public void scrollToTop(){
         ActionHelper.scrollToElement(startPage.selectedCity().getWebElement());

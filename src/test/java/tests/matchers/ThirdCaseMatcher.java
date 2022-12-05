@@ -3,28 +3,31 @@ package tests.matchers;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebElement;
 import pages.BasePage;
+import steps.LaptopProductPageSteps;
 
 import static org.apache.commons.lang3.StringUtils.contains;
 
 public class ThirdCaseMatcher {
-    BasePage page;
-    String vendorName = "ASUS";
-    String ramSize = "32";
+    LaptopProductPageSteps page;
 
-    public ThirdCaseMatcher(BasePage page){
+    public ThirdCaseMatcher(LaptopProductPageSteps page){
         this.page = page;
     }
 
     //Проверить, что заголовок страницы соответствует ожидаемому
-    public void newWindowTitleIsCorrect(String newWindowTitle,String firstLaptopText){
-        Assertions.assertTrue(contains(newWindowTitle,firstLaptopText),"заголовок новой страницы не соответствует ожидаемому");
+    public void newWindowTitleIsCorrect(String expectedTitle){
+        String actual = page.getPageTitle();
+        //logger.info("Заголовок новой страницы: " + actual);
+        //logger.info("Название продукта в списке: " + expectedTitle);
+        Assertions.assertTrue(contains(actual,expectedTitle),"заголовок страницы не соответствует ожидаемому");
     }
     //Проверить, что в блоке Характеристики заголовок содержит ASUS
-    public void characteristicsTitleIsCorrect(WebElement characteristicsTitle){
-        Assertions.assertTrue(contains(characteristicsTitle.getText().toUpperCase(),vendorName),"заголовок некорректный: не " + vendorName);
+    public void characteristicsTitleIsCorrect(String expectedTitle){
+        Assertions.assertTrue(contains(page.getcharacteristicsTitle().toUpperCase(),expectedTitle),"заголовок некорректный: не " + expectedTitle);
+        //logger.info("Заголовок в блоке Характеристики корректный: " + vendorName);
     }
     //Проверить, что в блоке Характеристики значение Объем оперативной памяти равно 32 ГБ
-    public void characteristicsRamIsCorrect(WebElement characteristicsRam){
-        Assertions.assertTrue(contains(characteristicsRam.getText().toUpperCase(),ramSize), "ОЗУ в характеристиках некорректный: не " + ramSize);
+    public void characteristicsRamIsCorrect(String  expectedRamSize){
+        Assertions.assertTrue(contains(page.getcharacteristicsRam().toUpperCase(),expectedRamSize), "Пункт ОЗУ в характеристиках некорректный: не " + expectedRamSize);
     }
 }

@@ -15,6 +15,8 @@ public class BasePage {
         WindowHelper.init(driver);
         WaitHelper.init(driver, Duration.ofSeconds(10), Duration.ofMillis(100));
         JavaScriptHelper.init(driver);
+        NavigationHelper.init(driver);
+        SwitchHelper.init(driver);
     }
     // Получение заголовка текущей страницы
     public String getPageTitle() {

@@ -18,8 +18,9 @@ public class SecondCaseMatcher {
     int productsCountExpected = 100;
     int popupCookingCountExpected = 5;
 
-    public SecondCaseMatcher(StartPageSteps startPageSteps){
-        this.startPageSteps = startPageSteps;
+    //public SecondCaseMatcher(StartPageSteps startPageSteps){
+    public SecondCaseMatcher(){
+        //this.startPageSteps = startPageSteps;
         testRefs.add("Техника для кухни");
         testRefs.add("Техника для дома");
         testRefs.add("Встраиваемая техника");

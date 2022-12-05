@@ -1,6 +1,5 @@
 package pages;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import elements.*;
 import helpers.WaitHelper;
 import org.apache.logging.log4j.LogManager;
@@ -66,6 +65,12 @@ public class StartPage extends BasePage {
     }
     public Link cooking() {
         return new Link(linkCooking);
+    }
+    public Link computersPeripherals(){
+        return new Link(computersPeripherals);
+    }
+    public Link laptops(){
+        return new Link(laptops);
     }
     public List<Link> subcategories() {
         WaitHelper.visibilityOfManyElements(sublistAppliances);

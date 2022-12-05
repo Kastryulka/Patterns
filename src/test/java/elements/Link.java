@@ -1,7 +1,6 @@
 package elements;
 
-import helpers.ActionHelper;
-import helpers.WaitHelper;
+import helpers.*;
 import org.openqa.selenium.WebElement;
 
 public class Link extends BaseElement{
@@ -24,11 +23,11 @@ public class Link extends BaseElement{
         // Получение URL ссылки
         String URL = this.getURL();
         // Создание нового окна и переключение на него
-        //SwitchHelper.switchToNewWindow();
+        SwitchHelper.switchToNewWindow();
         // Максимизация размеров окна
-        //WindowHelper.maximizeWindow();
+        WindowHelper.maximizeWindow();
         // Переход по ссылке в новом окне
-        //NavigationHelper.navigateTo(URL);
+        NavigationHelper.navigateTo(URL);
     }
     // Получение URL ссылки
     public String getURL() {

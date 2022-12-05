@@ -1,187 +1,121 @@
 package tests.thirdCase;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import pages.StartPage;
+import steps.*;
 import tests.BaseTest;
 import tests.matchers.ThirdCaseMatcher;
 
-import java.util.Set;
-
 public class ThirdCaseTest extends BaseTest {
+    String cityXpath = "//*[contains(@class,'city-select__text')]";
+    String vendorName = "ASUS";
+    String ramSize = "32";
     @Test
-    public void dnsTest(){
-        ThirdCaseMatcher thirdCaseMatcher = new ThirdCaseMatcher(new StartPage(driver));
+    public void firstStepTest(){
         outputDir = "temp\\\\ThirdCase\\\\";
         listener.setOutputDir(outputDir);
-        ////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        String cityXpath = "//*[contains(@class,'city-select__text')]";
-        String vendorName = "ASUS";
-        String ramSize = "32";
 
-        decoratedDriver.get("https://www.dns-shop.ru/");
-        logger.info("Открыта страница DNS - " + "https://www.dns-shop.ru/");
+        LaptopsPageSteps laptopsPage = getLaptopsPage();
+        String firstLaptopText = getFirstLaptopText(laptopsPage);
+        LaptopProductPageSteps laptopProductPage = getLaptopProductPage(laptopsPage);
+
+        ThirdCaseMatcher thirdCaseMatcher = new ThirdCaseMatcher(laptopProductPage);
+        thirdCaseMatcher.newWindowTitleIsCorrect(firstLaptopText);
+        logger.info("Заголовок страницы соответствует ожидаемому");
+        //Сделать скриншот всей страницы (с прокруткой) после загрузки страницы
+        listener.getScreenshotFull(driver,outputDir,"Страница выбранного товара");
+    }
+    @Test
+    public void secondStepTest(){
+        outputDir = "temp\\\\ThirdCase\\\\";
+        listener.setOutputDir(outputDir);
+
+        LaptopsPageSteps laptopsPage = getLaptopsPage();
+        LaptopProductPageSteps laptopProductPage = getLaptopProductPage(laptopsPage);
+
+
+        //Проверить, что в блоке Характеристики заголовок содержит ASUS
+        ThirdCaseMatcher thirdCaseMatcher = new ThirdCaseMatcher(laptopProductPage);
+        thirdCaseMatcher.characteristicsTitleIsCorrect(vendorName);
+        logger.info("Заголовок корректный: " + vendorName);
+        //Сделать скриншот всей страницы (с прокруткой) после загрузки страницы
+        listener.getScreenshotFull(driver,outputDir,"Страница выбранного товара");
+    }
+    @Test
+    public void thirdStepTest(){
+        outputDir = "temp\\\\ThirdCase\\\\";
+        listener.setOutputDir(outputDir);
+
+        LaptopsPageSteps laptopsPage = getLaptopsPage();
+        LaptopProductPageSteps laptopProductPage = getLaptopProductPage(laptopsPage);
+
+        //Проверить, что в блоке Характеристики заголовок содержит ASUS
+        ThirdCaseMatcher thirdCaseMatcher = new ThirdCaseMatcher(laptopProductPage);
+        thirdCaseMatcher.characteristicsRamIsCorrect(ramSize);
+        logger.info("Пункт ОЗУ в характеристиках корректный: " + ramSize);
+        //Сделать скриншот всей страницы (с прокруткой) после загрузки страницы
+        listener.getScreenshotFull(driver,outputDir,"Страница выбранного товара");
+    }
+
+    protected LaptopsPageSteps getLaptopsPage(){
+        StartPageSteps startPage = new StartPageSteps(driver);
         //Сделать скриншот всей страницы (с прокруткой) после загрузки страницы
         listener.getScreenshotFull(driver,outputDir,"Начальная страница DNS");
-        actions.scrollToElement(driver.findElement(By.xpath(cityXpath))).perform();
-
-        //если появляется окно выбора города, нажимаем на кнопку согласия
-        String xpathConfirmCityBtn = "//button[contains(@class,'v-confirm-city__btn')]";
-        try{
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathConfirmCityBtn)))
-                    .click();
-            logger.info("Согласились с выбором города");
-            WebElement body = driver.findElement(By.xpath(
-                    "//body[1]"));
-            wait.until(ExpectedConditions.stalenessOf(body));
-            logger.info("Страница обновлена");
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
+        startPage.scrollToTop();
         //Навестись на Компьютеры и периферия (пк, ноутбуки и периферия)
-        String computersPeripheralsXpath = "//a[contains(@class,'menu-desktop__root-title') and contains(text(),'периферия')]";
-        By computersPeripheralsBy = By.xpath(computersPeripheralsXpath);
-        wait.until(ExpectedConditions.elementToBeClickable(computersPeripheralsBy));
-        WebElement computersPeripherals = decoratedDriver.findElement(computersPeripheralsBy);
-        actions.moveToElement(computersPeripherals).perform();
+        startPage.focusOnComputersPeripherals();
         logger.info("Навелись на Пк,ноутбуки и периферия");
+        //Сделать скриншот всей страницы (с прокруткой) после загрузки страницы
+        listener.getScreenshotFull(driver,outputDir,"Пк ноутбуки и периферия");
+        startPage.scrollToTop();
 
         //Перейти по ссылке Ноутбуки
-        String laptopsXpath = "//a[contains(@class,'menu-desktop__second-level') and contains(text(),'Ноутбуки')]";
-        By laptopsBy = By.xpath(laptopsXpath);
-        wait.until(ExpectedConditions.presenceOfElementLocated(laptopsBy));
-        WebElement laptops = decoratedDriver.findElement(laptopsBy);
-        actions.moveToElement(computersPeripherals).perform();
+        startPage.focusOnComputersPeripherals();
         logger.info("Навелись на Пк,ноутбуки и периферия повторно");
-        wait.until(ExpectedConditions.elementToBeClickable(laptopsBy));
-        laptops.click();
+        startPage.goToLaptopsPage();
         logger.info("Перешли по ссылке Ноутбуки");
+        LaptopsPageSteps laptopsPage = new LaptopsPageSteps(driver);
         //Сделать скриншот всей страницы (с прокруткой) после загрузки страницы
         listener.getScreenshotFull(driver,outputDir,"Ноутбуки");
 
         //Скрыть блок страницы (заголовок)
-        By headerBy = By.xpath("//header[nav[@id='header-search']]");
-        wait.until(ExpectedConditions.presenceOfElementLocated(headerBy));
-        WebElement header = decoratedDriver.findElement(headerBy);
-        JavascriptExecutor js = (JavascriptExecutor) decoratedDriver;
-        String script = "arguments[0].style.display='none';";
-        js.executeScript(script, header);
+        laptopsPage.hideHeader();
         logger.info("Заголовок страницы скрыт");
         //Сделать скриншот всей страницы (с прокруткой) после скрытия блока
-        listener.getScreenshotFull(driver,outputDir,"Скрыт заголок");
+        listener.getScreenshotFull(driver,outputDir,"Скрыт заголовок");
 
         //Выбрать в фильтре Производитель ASUS
-        String filtersXpath = "//div[@data-role='filters-container']";
-        String chboxVendorXpath = filtersXpath + "//label[span[contains(text(), '" + vendorName + "')]]";
-        By chboxVendorBy = By.xpath(chboxVendorXpath);
-        wait.until(ExpectedConditions.elementToBeClickable(chboxVendorBy));
-        WebElement vendor = decoratedDriver.findElement(chboxVendorBy);
-        vendor.click();
+        laptopsPage.filterByCompany(vendorName);
         logger.info("Выбрали вендора в фильтрах: " + vendorName);
-
         //Выбрать в фильтре Объем оперативной памяти значение 32 ГБ
-        //раскрыть подменю с фильтрами...
-        String ramXpath = filtersXpath + "//span[contains(text(),'Объем оперативной памяти')]";
-        By ramBy = By.xpath(ramXpath);
-        wait.until(ExpectedConditions.elementToBeClickable(ramBy));
-        WebElement ram = decoratedDriver.findElement(ramBy);
-        ram.click();
-        logger.info("Развернули фильтр ОЗУ");
-        //...выбрать фильтр, ...
-        String chboxRamXpath = filtersXpath + "//label[span[contains(text(),'" + ramSize + " ГБ')]]";
-        By chboxRamBy = By.xpath(chboxRamXpath);
-        wait.until(ExpectedConditions.elementToBeClickable(chboxRamBy));
-        WebElement chboxRam = decoratedDriver.findElement(chboxRamBy);
-        chboxRam.click();
+        laptopsPage.filterByRam(ramSize);
         logger.info("Выбрали объем ОЗУ в фильтрах: " + ramSize + " Гб");
-        //... применить фильтр
-        String applyFiltersXpath = "//div[contains(@class,'apply-filters-float-btn')]";
-        By applyFiltersBy = By.xpath(applyFiltersXpath);
-        wait.until(ExpectedConditions.elementToBeClickable(applyFiltersBy));
-        WebElement applyFilters = decoratedDriver.findElement(applyFiltersBy);
-        applyFilters.click();
+        laptopsPage.applyFilters();
         logger.info("Применили фильтры");
         //Сделать скриншот всей страницы (с прокруткой) после применения фильтров
         listener.getScreenshotFull(driver,outputDir,"Фильтры");
-
         //Применить сортировку Сначала дорогие
-        String topOrderXpath = "//div[@class='top-filters']//div[@data-id='order']";
-        By topOrderBy = By.xpath(topOrderXpath);
-        wait.until(ExpectedConditions.elementToBeClickable(topOrderBy));
-        WebElement topOrder = decoratedDriver.findElement(topOrderBy);
-        topOrder.click();
-        logger.info("Открыли меню порядка отображения товаров");
-        String topFilterExpensiveXpath = "//label[@class='ui-radio__item' and span[contains(text(),'Сначала дорогие')]]";
-        By topFilterBy = By.xpath(topFilterExpensiveXpath);
-        wait.until(ExpectedConditions.elementToBeClickable(topFilterBy));
-        WebElement topFilter = decoratedDriver.findElement(topFilterBy);
-        topFilter.click();
+        String type = "Сначала дорогие";
+        laptopsPage.orderBy(type);
         logger.info("Применили сортировку Сначала дорогие");
-
-        //Перейти на страницу первого продукта в списке в новом максимизированном окне
-        String firstLaptopXpath = "//div[contains(@class,'catalog-products')][1]/div[contains(@class,'catalog-product')][1]";
-        By firstLaptopBy = By.xpath(firstLaptopXpath);
-        wait.until(ExpectedConditions.stalenessOf(decoratedDriver.findElement(firstLaptopBy)));
         //Сделать скриншот всей страницы (с прокруткой) после применения сортировки
         listener.getScreenshotFull(driver,outputDir,"Сортировка");
-        wait.until(ExpectedConditions.elementToBeClickable(firstLaptopBy));
-        WebElement firstLaptop = decoratedDriver.findElement(firstLaptopBy);
+        return laptopsPage;
+    }
+    protected String getFirstLaptopText(LaptopsPageSteps laptopsPage){
         //готовим строки для сравнения...
-        String firstLaptopText = firstLaptop.findElement(
-                        By.xpath("./a[contains(@class,'catalog-product__name')]"))
-                .getText();
+        String firstLaptopText = laptopsPage.getFirstProductName();
         int indexEnd = firstLaptopText.indexOf("[");
         firstLaptopText = firstLaptopText.substring(0,indexEnd).trim();
         logger.info("Название первого продукта в списке: " + firstLaptopText);
+
+        return firstLaptopText;
+    }
+    protected LaptopProductPageSteps getLaptopProductPage(LaptopsPageSteps laptopsPage){
+        //Перейти на страницу первого продукта в списке в новом максимизированном окне
         //...переходим на следующую страницу
-        String firstLaptopLink = decoratedDriver.findElement(
-                        By.xpath(firstLaptopXpath+"/a[contains(@class,'catalog-product__name')]"))
-                .getAttribute("href");
-        decoratedDriver.switchTo().newWindow(WindowType.WINDOW);
-        decoratedDriver.manage().window().maximize();
-        decoratedDriver.get(firstLaptopLink);
-        logger.info("В новом окне открыта ссылка: " + firstLaptopText);
-        Set<String> windows = driver.getWindowHandles();
-
-        //Проверить, что заголовок страницы соответствует ожидаемому
-        String newWindowTitle = decoratedDriver.getTitle();
-        logger.info("Заголовок новой страницы: " + newWindowTitle);
-        logger.info("Название продукта в списке: " + firstLaptopText);
-        thirdCaseMatcher.newWindowTitleIsCorrect(newWindowTitle,firstLaptopText);
-        logger.info("Заголовок страницы соответствует ожидаемому");
-        //Сделать скриншот всей страницы (с прокруткой) после загрузки страницы
-        listener.getScreenshotFull(driver,outputDir,"Страница выбранного товара");
-        actions.scrollToElement(driver.findElement(By.xpath(cityXpath))).perform();
-
-        //Проверить, что в блоке Характеристики заголовок содержит ASUS
-        String characteristicsTitleXpath = "//div[contains(@class,'product-card-description__title')]";
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(characteristicsTitleXpath)));
-        WebElement characteristicsTitle = decoratedDriver.findElement(By.xpath(characteristicsTitleXpath));
-        thirdCaseMatcher.characteristicsTitleIsCorrect(characteristicsTitle);
-        logger.info("Заголовок в блоке Характеристики корректный: " + vendorName);
-
-        //Проверить, что в блоке Характеристики значение Объем оперативной памяти равно 32 ГБ
-        String characteristicsBtnXpath = "//button[contains(@class,'product-characteristics__expand')]";
-        By characteristicsBtnBy = By.xpath(characteristicsBtnXpath);
-        wait.until(ExpectedConditions.elementToBeClickable(characteristicsBtnBy));
-        WebElement characteristicsBtn = decoratedDriver.findElement(characteristicsBtnBy);
-        characteristicsBtn.click();
-        logger.info("Развернули список характеристик");
-        String characteristicsRamXpath = "//div[contains(@class,'product-characteristics__ovh') " +
-                "and div[contains(text(),'Объем оперативной памяти')]]" +
-                "/*[contains(@class,'product-characteristics__spec-value')]";
-        WebElement characteristicsRam = decoratedDriver.findElement(By.xpath(characteristicsRamXpath));
-        logger.info(characteristicsRam.getText().toUpperCase());
-        thirdCaseMatcher.characteristicsRamIsCorrect(characteristicsRam);
-        logger.info("Объем ОЗУ корректный: " + ramSize);
-
-        /*try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
+        laptopsPage.goToFirstProductPage();
+        //logger.info("В новом окне открыта ссылка: " + firstLaptopText);
+        LaptopProductPageSteps laptopProductPageSteps = new LaptopProductPageSteps(driver);
+        return laptopProductPageSteps;
     }
 }

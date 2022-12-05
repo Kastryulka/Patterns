@@ -16,4 +16,10 @@ public class WindowHelper {
     public static Dimension getWindowSize() {
         return window.manage().window().getSize();
     }
+    public static void maximizeWindow(){
+        window.manage().window().maximize();
+    }
+    public static String getWindowTitle(){
+        return window.getTitle();
+    }
 }

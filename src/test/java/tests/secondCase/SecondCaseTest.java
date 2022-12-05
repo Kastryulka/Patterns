@@ -2,14 +2,10 @@ package tests.secondCase;
 
 import elements.Link;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import pages.HouseholdAppliancesPage;
-import pages.StartPage;
+import steps.ElectricStovesPageSteps;
 import steps.StartPageSteps;
+import steps.StovesPageSteps;
 import tests.BaseTest;
-import tests.matchers.FirstCaseMatcher;
 import tests.matchers.SecondCaseMatcher;
 
 import java.util.List;
@@ -22,10 +18,10 @@ public class SecondCaseTest extends BaseTest {
 
         StartPageSteps startPage = FirstStep();
 
-        SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher(startPage);
+        //SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher(startPage);
+        SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher();
         secondCaseMatcher.sublistAppliancesIsCorrect(startPage.getSublistAppliances());
         listener.getScreenshotFull(driver,outputDir,"Элементы меню Бытовая техника");
-        startPage.scrollToTop();
         logger.info("Необходимые ссылки отображаются");
     }
     @Test
@@ -34,74 +30,32 @@ public class SecondCaseTest extends BaseTest {
         listener.setOutputDir(outputDir);
 
         //StartPageSteps startPage = SecondStep();
-        StartPageSteps startPage = new StartPageSteps(driver); /////////!!!!!!!
+        //StartPageSteps startPage = new StartPageSteps(driver); /////////!!!!!!!
         List<Link> sublistCooking = SecondStep();
         listener.getScreenshotFull(driver,outputDir,"Элементы меню Плиты и печи");
 
         //... проверить, что ссылок больше пяти
-        SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher(startPage);
+        //SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher(startPage);
+        SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher();
         secondCaseMatcher.popupCookingCountIsCorrect(sublistCooking);
         listener.getScreenshotFull(driver,outputDir,"Элементы меню Бытовая техника");
-        startPage.scrollToTop();
         logger.info("Необходимые ссылки отображаются");
     }
-    /*@Test
-    public void dnsTest(){
+    @Test
+    public void thirdStepTest(){
         outputDir = "temp\\\\SecondCase\\\\";
         listener.setOutputDir(outputDir);
-        SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher(new StartPage(driver));
 
-        String cityXpath = "//*[contains(@class,'city-select__text')]";
-
-        decoratedDriver.get("https://www.dns-shop.ru/");
-        logger.info("Открыта страница DNS - " + "https://www.dns-shop.ru/");
-        listener.getScreenshotFull(driver,outputDir,"Начальная страница DNS");
-        actions.scrollToElement(driver.findElement(By.xpath(cityXpath))).perform();
-
-        //если появляется окно выбора города (может скрывать Бытовую технику), нажимаем на кнопку согласия
-        String xpathConfirmCityBtn = "//button[contains(@class,'v-confirm-city__btn')]";
-        try{
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathConfirmCityBtn)))
-                    .click();
-            logger.info("Согласились с выбором города");
-            WebElement body = driver.findElement(By.xpath(
-                    "//body[1]"));
-            wait.until(ExpectedConditions.stalenessOf(body));
-            logger.info("Страница обновлена");
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        ////первый шаг
-
-        //////второй шаг
-
-        //Навестись и перейти в плиты, ...
-        actions
-                .moveToElement(linkAppliances)
-                .perform();
-        WebElement stoves = wait.until(ExpectedConditions.elementToBeClickable(linkCooking));
-        actions
-                .moveToElement(stoves)
-                .click()
-                .perform();
-        logger.info("Перешли в раздел Плиты");
-        listener.getScreenshotFull(driver,outputDir,"Плиты");
-        actions.scrollToElement(driver.findElement(By.xpath(cityXpath))).perform();
-        //...перейти в электрические плиты...
-        wait.until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//a[contains(@class,'subcategory__item')]//span[text()='Плиты электрические']")))
-                .click();
-        logger.info("Перешли в раздел Плиты электрические");
-        listener.getScreenshotFull(driver,outputDir,"Электрические плиты");
-        //... проверить, что в заголовке количество товаров больше ста
-        WebElement productsCount = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//span[@class='products-count']")));
-        int value = Integer.parseInt(productsCount.getText().replaceAll("[^0-9]", ""));
+        ElectricStovesPageSteps electricStovesPage = ThirdStep();
+        int value = electricStovesPage.getProductsCount();
         logger.info("Количество товаров: " + value);
+
+        //... проверить, что в заголовке количество товаров больше ста
+        //SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher(electricStovesPage);
+        SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher();
         secondCaseMatcher.productsCountIsCorrect(value);
-    }*/
+    }
+
 
     protected StartPageSteps FirstStep(){
         StartPageSteps startPage = new StartPageSteps(driver);
@@ -123,5 +77,21 @@ public class SecondCaseTest extends BaseTest {
         //startPage.scrollToTop();
         //return startPage;
         return startPage.getSublistCooking();
+    }
+    protected ElectricStovesPageSteps ThirdStep(){
+        StartPageSteps startPage = new StartPageSteps(driver);
+        //Навестись и перейти в плиты, ...
+        startPage.focusOnHouseholdAppliances();
+        startPage.focusAndClickCooking();
+        logger.info("Перешли в раздел Плиты");
+        listener.getScreenshotFull(driver,outputDir,"Плиты");
+        startPage.scrollToTop();
+        //...перейти в электрические плиты...
+        StovesPageSteps stovesPageSteps = new StovesPageSteps(driver);
+        stovesPageSteps.goToElectricStovesPage();
+        logger.info("Перешли в раздел Плиты электрические");
+        ElectricStovesPageSteps electricStovesPage = new ElectricStovesPageSteps(driver);
+        listener.getScreenshotFull(driver,outputDir,"Электрические плиты");
+        return electricStovesPage;
     }
 }

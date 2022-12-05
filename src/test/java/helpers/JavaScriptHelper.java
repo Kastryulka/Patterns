@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class JavaScriptHelper {
     private static Logger logger = LogManager.getLogger(JavaScriptHelper.class);
@@ -13,5 +14,7 @@ public class JavaScriptHelper {
         javascriptExecutor = (JavascriptExecutor) driver;
     }
 
-    public static void displayNone(){}
+    public static void displayNone(WebElement webElement){
+        String script = "arguments[0].style.display='none';";
+        javascriptExecutor.executeScript(script, webElement);}
 }

@@ -8,6 +8,6 @@ public class Block extends BaseElement {
         super(webElement);
     }
     public void hide(){
-        JavaScriptHelper.displayNone();
+        JavaScriptHelper.displayNone(webElement);
     }
 }
