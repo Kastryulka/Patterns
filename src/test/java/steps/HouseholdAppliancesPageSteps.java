@@ -16,7 +16,7 @@ public class HouseholdAppliancesPageSteps {
     }
 
     public void goToKitchenAppliances(){
-        householdAppliancesPage.kitchenAppliances().click();
+        householdAppliancesPage.linkKitchenAppliances().click();
     }
     public void scrollToTop(){
         ActionHelper.scrollToElement(householdAppliancesPage.selectedCity().getWebElement());

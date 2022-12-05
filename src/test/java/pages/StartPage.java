@@ -17,25 +17,24 @@ public class StartPage extends BasePage {
     private Logger logger = LogManager.getLogger(StartPage.class);
     private final String URL = "https://www.dns-shop.ru/";
 
-    // Кнопка "Всё верно" на всплывашке
     @FindBy(xpath = "//button[contains(@class,'v-confirm-city__btn')]")
-    private WebElement confirmCity;
+    private WebElement buttonConfirmCity;
     @FindBy(xpath="//body[1]")
-    private WebElement body;
+    private WebElement blockBody;
     @FindBy(xpath="//*[contains(@class,'city-select__text')]")
-    private WebElement selectedCity;
+    private WebElement buttonSelectedCity;
     @FindBy(xpath="//a[contains(@class ,'menu-desktop__root-title') and text()='Бытовая техника']")
-    private WebElement householdAppliances;
+    private WebElement linkHouseholdAppliances;
     @FindBy(xpath="//a[contains(@class ,'menu-desktop__root-title') and text()='Бытовая техника']//ancestor::div[@class='menu-desktop__root']//div[contains(@class ,'menu-desktop__submenu_top')]/a")
     private List<WebElement> sublistAppliances;
     @FindBy(xpath="//a[@class='ui-link menu-desktop__second-level' and text()='Плиты и печи']")
-    private WebElement linkCooking;
+    private WebElement linkStoves;
     @FindBy(xpath="//a[@class='ui-link menu-desktop__second-level' and text()='Плиты и печи']/span[@class='menu-desktop__popup']/a")
-    private List<WebElement> popupCooking;
+    private List<WebElement> popupStoves;
     @FindBy(xpath="//a[contains(@class,'menu-desktop__root-title') and contains(text(),'периферия')]")
-    private WebElement computersPeripherals;
+    private WebElement linkComputersPeripherals;
     @FindBy(xpath="//a[contains(@class,'menu-desktop__second-level') and contains(text(),'Ноутбуки')]")
-    private WebElement laptops;
+    private WebElement linkLaptops;
 
     public StartPage(WebDriver driver) {
         // Вызов родительского конструктора
@@ -47,46 +46,43 @@ public class StartPage extends BasePage {
     public String getURL() {
         return this.URL;
     }
-    // Открытие страницы
     public void openPage() {
         driver.get(this.URL);
         logger.info("Открыта страница https://www.dns-shop.ru/");
     }
-
-    // Кнопка "Всё верно" на всплывашке
-    public Button confirmCity() {
-        return new Button(confirmCity);
+    public Button buttonConfirmCity() {
+        return new Button(buttonConfirmCity);
     }
-    public Button selectedCity() {
-        return new Button(selectedCity);
+    public Button buttonSelectedCity() {
+        return new Button(buttonSelectedCity);
     }
-    public Link householdAppliances() {
-        return new Link(householdAppliances);
+    public Link linkHouseholdAppliances() {
+        return new Link(linkHouseholdAppliances);
     }
-    public Link cooking() {
-        return new Link(linkCooking);
+    public Link linkStoves() {
+        return new Link(linkStoves);
     }
-    public Link computersPeripherals(){
-        return new Link(computersPeripherals);
+    public Link linkComputersPeripherals(){
+        return new Link(linkComputersPeripherals);
     }
-    public Link laptops(){
-        return new Link(laptops);
+    public Link linkLaptops(){
+        return new Link(linkLaptops);
     }
-    public List<Link> subcategories() {
+    public List<Link> sublistAppliances() {
         WaitHelper.visibilityOfManyElements(sublistAppliances);
         List<WebElement> elementsList = sublistAppliances;
         List<Link> linksList = new ArrayList<Link>();
         elementsList.forEach(webElement -> linksList.add(new Link(webElement)));
         return linksList;
     }
-    public List<Link> popupCooking() {
-        WaitHelper.visibilityOfManyElements(popupCooking);
-        List<WebElement> elementsList = popupCooking;
+    public List<Link> popupStoves() {
+        WaitHelper.visibilityOfManyElements(popupStoves);
+        List<WebElement> elementsList = popupStoves;
         List<Link> linksList = new ArrayList<Link>();
         elementsList.forEach(webElement -> linksList.add(new Link(webElement)));
         return linksList;
     }
     public Block blockBody(){
-        return new Block(body);
+        return new Block(blockBody);
     }
 }

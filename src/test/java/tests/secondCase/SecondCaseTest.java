@@ -6,76 +6,78 @@ import steps.ElectricStovesPageSteps;
 import steps.StartPageSteps;
 import steps.StovesPageSteps;
 import tests.BaseTest;
-import tests.matchers.SecondCaseMatcher;
+import tests.matchers.ElectricStovesPageMatcher;
+import tests.matchers.StartPageMatcher;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SecondCaseTest extends BaseTest {
+    //ожидаемые результаты
+    ArrayList<String> testRefs = new ArrayList<String>();
+    int productsCountExpected = 100;
+    int popupCookingCountExpected = 5;
     @Test
     public void firstStepTest(){
-        outputDir = "temp\\\\SecondCase\\\\";
+        outputDir = "temp\\\\SecondCase_firstStepTest\\\\";
         listener.setOutputDir(outputDir);
+        testRefs.add("Техника для кухни");
+        testRefs.add("Техника для дома");
+        testRefs.add("Встраиваемая техника");
 
-        StartPageSteps startPage = FirstStep();
+        logger.info("Кейс 2, тест 1");
+        StartPageSteps startPage = getStartPage();
 
-        //SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher(startPage);
-        SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher();
-        secondCaseMatcher.sublistAppliancesIsCorrect(startPage.getSublistAppliances());
+        StartPageMatcher startPageMatcher = new StartPageMatcher(startPage);
+        startPageMatcher.sublistIsCorrect(startPage.getSublistAppliances(),testRefs);
         listener.getScreenshotFull(driver,outputDir,"Элементы меню Бытовая техника");
         logger.info("Необходимые ссылки отображаются");
     }
     @Test
     public void secondStepTest(){
-        outputDir = "temp\\\\SecondCase\\\\";
+        outputDir = "temp\\\\SecondCase_secondStepTest\\\\";
         listener.setOutputDir(outputDir);
 
-        //StartPageSteps startPage = SecondStep();
-        //StartPageSteps startPage = new StartPageSteps(driver); /////////!!!!!!!
-        List<Link> sublistCooking = SecondStep();
+        logger.info("Кейс 2, тест 2");
+        StartPageSteps startPage = getStartPage();
+        List<Link> sublistCooking = getSublicstCooking(startPage);
         listener.getScreenshotFull(driver,outputDir,"Элементы меню Плиты и печи");
 
         //... проверить, что ссылок больше пяти
-        //SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher(startPage);
-        SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher();
-        secondCaseMatcher.popupCookingCountIsCorrect(sublistCooking);
+        StartPageMatcher startPageMatcher = new StartPageMatcher(startPage);
+        startPageMatcher.popupCountIsCorrect(sublistCooking.size(),popupCookingCountExpected);
         listener.getScreenshotFull(driver,outputDir,"Элементы меню Бытовая техника");
         logger.info("Необходимые ссылки отображаются");
     }
     @Test
     public void thirdStepTest(){
-        outputDir = "temp\\\\SecondCase\\\\";
+        outputDir = "temp\\\\SecondCase_thirdStepTest\\\\";
         listener.setOutputDir(outputDir);
 
+        logger.info("Кейс 2, тест 3");
         ElectricStovesPageSteps electricStovesPage = ThirdStep();
         int value = electricStovesPage.getProductsCount();
         logger.info("Количество товаров: " + value);
 
         //... проверить, что в заголовке количество товаров больше ста
-        //SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher(electricStovesPage);
-        SecondCaseMatcher secondCaseMatcher = new SecondCaseMatcher();
-        secondCaseMatcher.productsCountIsCorrect(value);
+        ElectricStovesPageMatcher electricStovesPageMatcher = new ElectricStovesPageMatcher(electricStovesPage);
+        electricStovesPageMatcher.productsCountIsCorrect(value,productsCountExpected);
     }
 
 
-    protected StartPageSteps FirstStep(){
+    protected StartPageSteps getStartPage(){
         StartPageSteps startPage = new StartPageSteps(driver);
-        //startPage.confirmCity();
         listener.getScreenshotFull(driver,outputDir,"Начальная страница DNS");
         startPage.scrollToTop();
         //Навести курсор на ссылку Бытовая техника, проверить, что отображаются ссылки
         startPage.focusOnHouseholdAppliances();
         return startPage;
     }
-    protected List<Link> SecondStep(){
-        StartPageSteps startPage = new StartPageSteps(driver);
-        //startPage.confirmCity();
+    protected List<Link> getSublicstCooking(StartPageSteps startPage){
         //Навестись на приготовление пищи... проверить количество ссылок в подменю
-        startPage.focusOnHouseholdAppliances();
         startPage.focusOnCooking();
         logger.info("Открыто подменю Плиты и печи");
         logger.info("Количество элементов подменю: " + startPage.getSublistCooking().size());
-        //startPage.scrollToTop();
-        //return startPage;
         return startPage.getSublistCooking();
     }
     protected ElectricStovesPageSteps ThirdStep(){

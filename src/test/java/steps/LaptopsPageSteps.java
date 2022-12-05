@@ -11,7 +11,7 @@ public class LaptopsPageSteps {
     }
 
     public void hideHeader(){
-        laptopsPage.header().hide();
+        laptopsPage.blockHeader().hide();
     }
     public void filterByCompany(String vendorName){
         laptopsPage.checkboxVendor(vendorName).setChecked(true);
@@ -31,9 +31,9 @@ public class LaptopsPageSteps {
         laptopsPage.radiobuttonSort(type).setSelected(true);
     }
     public void goToFirstProductPage(){
-        laptopsPage.firstProductLink().openInNewWindow();
+        laptopsPage.linkFirstProduct().openInNewWindow();
     }
     public String getFirstProductName(){
-        return laptopsPage.firstProductLink().getText();
+        return laptopsPage.linkFirstProduct().getText();
     }
 }

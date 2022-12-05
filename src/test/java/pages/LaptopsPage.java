@@ -13,7 +13,7 @@ import java.util.List;
 //страница Ноутбуки
 public class LaptopsPage extends BasePage {
     @FindBy(xpath = "//header")
-    private WebElement header;
+    private WebElement blockHeader;
     @FindBy(xpath = "//div[@data-id=\"brand\"]")
     private WebElement accordeonVendor;
     @FindBy(xpath = "//span[contains(text(),'Объем оперативной памяти')]")
@@ -25,7 +25,7 @@ public class LaptopsPage extends BasePage {
     @FindBy(xpath = "(//div[@class=\"top-filter__radio-list ui-radio top-filter__popover\"])[1]//span")
     private List<WebElement> radiobuttonSort;
     @FindBy(xpath = "//div[contains(@class,'catalog-products')][1]/div[contains(@class,'catalog-product')][1]/a[contains(@class,'catalog-product__name')]")
-    private WebElement firstProductLink;
+    private WebElement linkFirstProduct;
 
     public LaptopsPage(WebDriver driver) {
         // Вызов родительского конструктора
@@ -34,8 +34,8 @@ public class LaptopsPage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public Block header(){
-        return new Block(header);
+    public Block blockHeader(){
+        return new Block(blockHeader);
     }
     public CheckBox checkboxVendor(String vendorName){
         return new CheckBox(accordeonVendor.findElement(
@@ -63,7 +63,7 @@ public class LaptopsPage extends BasePage {
     public Button buttonApply(){
         return new Button(buttonApply);
     }
-    public Link firstProductLink() {
-        return new Link(firstProductLink);
+    public Link linkFirstProduct() {
+        return new Link(linkFirstProduct);
     }
 }

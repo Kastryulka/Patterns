@@ -14,11 +14,11 @@ import java.util.List;
 //страница Техника для кухни
 public class KitchenAppliancesPage extends BasePage {
     @FindBy(xpath="//*[@class='subcategory__page-title']")
-    private WebElement subcategoryPageTitle;
+    private WebElement titleSubcategoryPage;
     @FindBy(xpath="//a[contains(@class ,'configurator-links-block__links-link')]")
-    private WebElement configurationButton;
+    private WebElement buttonConfiguration;
     @FindBy (xpath = "//*[@class='subcategory__title']")
-    private List<WebElement> subcategories;
+    private List<WebElement> listSubcategories;
 
     public KitchenAppliancesPage(WebDriver driver) {
         // Вызов родительского конструктора
@@ -27,12 +27,12 @@ public class KitchenAppliancesPage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public Title subcategoryPageTitle(){
-        return new Title(subcategoryPageTitle);
+    public Title titleSubcategoryPage(){
+        return new Title(titleSubcategoryPage);
     }
-    public Button configurationButton() {return new Button(configurationButton);}
-    public List<Link> subcategories() {
-        List<WebElement> elementsList = subcategories;
+    public Button buttonConfiguration() {return new Button(buttonConfiguration);}
+    public List<Link> listSubcategories() {
+        List<WebElement> elementsList = listSubcategories;
         List<Link> linksList = new ArrayList<Link>();
         elementsList.forEach(webElement -> linksList.add(new Link(webElement)));
         return linksList;

@@ -2,7 +2,6 @@ package steps;
 
 import elements.Link;
 import helpers.ActionHelper;
-import helpers.WaitHelper;
 import helpers.WindowHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,21 +27,21 @@ public class StartPageSteps {
     }
 
     public List<Link> getSublistAppliances(){
-        return startPage.subcategories();
+        return startPage.sublistAppliances();
     }
     public List<Link> getSublistCooking(){
-        return startPage.popupCooking();
+        return startPage.popupStoves();
     }
     //если появляется окно выбора города (может скрывать Бытовую технику), нажимаем на кнопку согласия
     public void confirmCity(){
         try{
             WebElement body = startPage.blockBody().getWebElement();
-            startPage.confirmCity().click();
+            startPage.buttonConfirmCity().click();
             logger.info("Согласились с выбором города");
             //WaitHelper.stalenessOfElement(body);
             //logger.info("Страница обновлена");
             //listener.getScreenshotFull(driver,outputDir,"Обновленная начальная страница");
-            ActionHelper.scrollToElement(startPage.selectedCity().getWebElement());
+            ActionHelper.scrollToElement(startPage.buttonSelectedCity().getWebElement());
         }
         catch (Exception e){
             e.printStackTrace();
@@ -50,11 +49,11 @@ public class StartPageSteps {
     }
     public void goToHouseholdAppliancesPage(){
         try{
-            startPage.householdAppliances().click();
+            startPage.linkHouseholdAppliances().click();
         }
         catch (ElementClickInterceptedException e){
             confirmCity();
-            startPage.householdAppliances().click();
+            startPage.linkHouseholdAppliances().click();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -62,11 +61,11 @@ public class StartPageSteps {
     }
     public void goToLaptopsPage(){
         try{
-            startPage.laptops().click();
+            startPage.linkLaptops().click();
         }
         catch (ElementClickInterceptedException e){
             confirmCity();
-            startPage.laptops().click();
+            startPage.linkLaptops().click();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -74,11 +73,11 @@ public class StartPageSteps {
     }
     public void focusOnHouseholdAppliances(){
         try{
-            startPage.householdAppliances().focusOnLink();
+            startPage.linkHouseholdAppliances().focusOnLink();
         }
         catch (ElementNotInteractableException e){
             confirmCity();
-            startPage.householdAppliances().focusOnLink();
+            startPage.linkHouseholdAppliances().focusOnLink();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -86,11 +85,11 @@ public class StartPageSteps {
     }
     public void focusOnCooking(){
         try{
-            startPage.cooking().focusOnLink();
+            startPage.linkStoves().focusOnLink();
         }
         catch (ElementNotInteractableException e){
             confirmCity();
-            startPage.cooking().focusOnLink();
+            startPage.linkStoves().focusOnLink();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -98,11 +97,11 @@ public class StartPageSteps {
     }
     public void focusOnComputersPeripherals(){
         try{
-            startPage.computersPeripherals().focusOnLink();
+            startPage.linkComputersPeripherals().focusOnLink();
         }
         catch (ElementNotInteractableException e){
             confirmCity();
-            startPage.computersPeripherals().focusOnLink();
+            startPage.linkComputersPeripherals().focusOnLink();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -110,9 +109,9 @@ public class StartPageSteps {
     }
     public void focusAndClickCooking(){
         focusOnCooking();
-        startPage.cooking().click();
+        startPage.linkStoves().click();
     }
     public void scrollToTop(){
-        ActionHelper.scrollToElement(startPage.selectedCity().getWebElement());
+        ActionHelper.scrollToElement(startPage.buttonSelectedCity().getWebElement());
     }
 }

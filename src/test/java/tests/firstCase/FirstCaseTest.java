@@ -17,46 +17,49 @@ public class FirstCaseTest extends BaseTest{
         outputDir = "temp\\\\FirstCase_firstStepTest\\\\";
         listener.setOutputDir(outputDir);
 
+        logger.info("Кейс 1, тест 1");
         HouseholdAppliancesPage householdAppliancesPage = FirstStep();
 
         FirstCaseMatcher firstCaseMatcher = new FirstCaseMatcher(householdAppliancesPage);
-        firstCaseMatcher.householdAppliancesTextIsDisplayed(householdAppliancesPage.subcategoryPageTitle().getWebElement());
+        firstCaseMatcher.householdAppliancesTextIsDisplayed(householdAppliancesPage.titleSubcategoryPage().getWebElement());
         logger.info("Надпись \"Бытовая техника\" в заголовке отображена");
     }
     @Test
     public void secondStepTest(){
-        outputDir = "temp\\\\FirstCase-secondStepTest\\\\";
+        outputDir = "temp\\\\FirstCase_secondStepTest\\\\";
         listener.setOutputDir(outputDir);
 
+        logger.info("Кейс 1, тест 2");
         KitchenAppliancesPage kitchenAppliancesPage = SecondStep();
 
         FirstCaseMatcher firstCaseMatcher = new FirstCaseMatcher(kitchenAppliancesPage);
-        firstCaseMatcher.kitchenAppliancesTextIsDisplayed(kitchenAppliancesPage.subcategoryPageTitle().getWebElement());
+        firstCaseMatcher.kitchenAppliancesTextIsDisplayed(kitchenAppliancesPage.titleSubcategoryPage().getWebElement());
         logger.info("Надпись \"Техника для кухни\" в заголовке отображена");
     }
     @Test
     public void thirdStepTest(){
-        outputDir = "temp\\\\FirstCase-thirdStepTest\\\\";
+        outputDir = "temp\\\\FirstCase_thirdStepTest\\\\";
         listener.setOutputDir(outputDir);
 
+        logger.info("Кейс 1, тест 3");
         KitchenAppliancesPage kitchenAppliancesPage = ThirdStep();
         //... проверить, что отображается ссылка Собрать свою кухню,...
 
         FirstCaseMatcher firstCaseMatcher = new FirstCaseMatcher(kitchenAppliancesPage);
-        firstCaseMatcher.confLinkDisplayed(kitchenAppliancesPage.configurationButton().getWebElement());
+        firstCaseMatcher.confLinkDisplayed(kitchenAppliancesPage.buttonConfiguration().getWebElement());
         logger.info("Ссылка \"Собрать свою кухню\" отображена");
 
     }
 
-    /////!!!!!!!!!!!!!!!!!
     @Test
-    public void thirdStepTestaaaaaaaa(){
-        outputDir = "temp\\\\FirstCase-thirdAAAAAAAAAAAAAAAAAAAAAStepTest\\\\";
+    public void fourthStepTest(){
+        outputDir = "temp\\\\FirstCase_fourthStepTest\\\\";
         listener.setOutputDir(outputDir);
 
+        logger.info("Кейс 1, тест 4");
         KitchenAppliancesPage kitchenAppliancesPage = ThirdStep();
         //... вывести в логи названия категорий, ...
-        List<Link> subcategories= kitchenAppliancesPage.subcategories();
+        List<Link> subcategories= kitchenAppliancesPage.listSubcategories();
         for(Link elem : subcategories){
             logger.info("-" + elem.getText());
         }

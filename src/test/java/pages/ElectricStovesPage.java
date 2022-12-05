@@ -10,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 public class ElectricStovesPage extends BasePage
 {
     @FindBy(xpath = "//span[@class='products-count']")
-    private WebElement productsCount;
+    private WebElement titleProductsCount;
 
     public ElectricStovesPage(WebDriver driver) {
         // Вызов родительского конструктора
@@ -20,6 +20,6 @@ public class ElectricStovesPage extends BasePage
     }
 
     public Title productsCount(){
-        return new Title(productsCount);
+        return new Title(titleProductsCount);
     }
 }

@@ -7,6 +7,7 @@ public class Link extends BaseElement{
     public Link(WebElement webElement) {
         super(webElement);
     }
+
     // Нажатие на ссылку
     public void click() {
         // Ожидание кликабельности ссылки

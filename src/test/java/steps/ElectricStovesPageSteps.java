@@ -1,9 +1,7 @@
 package steps;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import pages.ElectricStovesPage;
-import pages.StovesPage;
 
 public class ElectricStovesPageSteps {
     private ElectricStovesPage electricStovesPage;

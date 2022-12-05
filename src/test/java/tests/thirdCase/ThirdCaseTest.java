@@ -3,54 +3,58 @@ package tests.thirdCase;
 import org.junit.jupiter.api.Test;
 import steps.*;
 import tests.BaseTest;
-import tests.matchers.ThirdCaseMatcher;
+import tests.matchers.ProductPageMatcher;
 
 public class ThirdCaseTest extends BaseTest {
-    String cityXpath = "//*[contains(@class,'city-select__text')]";
+    //ожидаемые результаты
     String vendorName = "ASUS";
     String ramSize = "32";
+
     @Test
     public void firstStepTest(){
-        outputDir = "temp\\\\ThirdCase\\\\";
+        outputDir = "temp\\\\ThirdCase_firstStepTest\\\\";
         listener.setOutputDir(outputDir);
 
+        logger.info("Кейс 3, тест 1");
         LaptopsPageSteps laptopsPage = getLaptopsPage();
         String firstLaptopText = getFirstLaptopText(laptopsPage);
         LaptopProductPageSteps laptopProductPage = getLaptopProductPage(laptopsPage);
 
-        ThirdCaseMatcher thirdCaseMatcher = new ThirdCaseMatcher(laptopProductPage);
-        thirdCaseMatcher.newWindowTitleIsCorrect(firstLaptopText);
+        ProductPageMatcher productPageMatcher = new ProductPageMatcher(laptopProductPage);
+        productPageMatcher.newWindowTitleIsCorrect(firstLaptopText);
         logger.info("Заголовок страницы соответствует ожидаемому");
         //Сделать скриншот всей страницы (с прокруткой) после загрузки страницы
         listener.getScreenshotFull(driver,outputDir,"Страница выбранного товара");
     }
     @Test
     public void secondStepTest(){
-        outputDir = "temp\\\\ThirdCase\\\\";
+        outputDir = "temp\\\\ThirdCase_secondStepTest\\\\";
         listener.setOutputDir(outputDir);
 
+        logger.info("Кейс 3, тест 2");
         LaptopsPageSteps laptopsPage = getLaptopsPage();
         LaptopProductPageSteps laptopProductPage = getLaptopProductPage(laptopsPage);
 
 
         //Проверить, что в блоке Характеристики заголовок содержит ASUS
-        ThirdCaseMatcher thirdCaseMatcher = new ThirdCaseMatcher(laptopProductPage);
-        thirdCaseMatcher.characteristicsTitleIsCorrect(vendorName);
+        ProductPageMatcher productPageMatcher = new ProductPageMatcher(laptopProductPage);
+        productPageMatcher.characteristicsTitleIsCorrect(vendorName);
         logger.info("Заголовок корректный: " + vendorName);
         //Сделать скриншот всей страницы (с прокруткой) после загрузки страницы
         listener.getScreenshotFull(driver,outputDir,"Страница выбранного товара");
     }
     @Test
     public void thirdStepTest(){
-        outputDir = "temp\\\\ThirdCase\\\\";
+        outputDir = "temp\\\\ThirdCase_thirdStepTest\\\\";
         listener.setOutputDir(outputDir);
 
+        logger.info("Кейс 3, тест 3");
         LaptopsPageSteps laptopsPage = getLaptopsPage();
         LaptopProductPageSteps laptopProductPage = getLaptopProductPage(laptopsPage);
 
         //Проверить, что в блоке Характеристики заголовок содержит ASUS
-        ThirdCaseMatcher thirdCaseMatcher = new ThirdCaseMatcher(laptopProductPage);
-        thirdCaseMatcher.characteristicsRamIsCorrect(ramSize);
+        ProductPageMatcher productPageMatcher = new ProductPageMatcher(laptopProductPage);
+        productPageMatcher.characteristicsRamIsCorrect(ramSize);
         logger.info("Пункт ОЗУ в характеристиках корректный: " + ramSize);
         //Сделать скриншот всей страницы (с прокруткой) после загрузки страницы
         listener.getScreenshotFull(driver,outputDir,"Страница выбранного товара");
@@ -114,7 +118,6 @@ public class ThirdCaseTest extends BaseTest {
         //Перейти на страницу первого продукта в списке в новом максимизированном окне
         //...переходим на следующую страницу
         laptopsPage.goToFirstProductPage();
-        //logger.info("В новом окне открыта ссылка: " + firstLaptopText);
         LaptopProductPageSteps laptopProductPageSteps = new LaptopProductPageSteps(driver);
         return laptopProductPageSteps;
     }

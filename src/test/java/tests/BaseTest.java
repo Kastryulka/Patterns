@@ -10,7 +10,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import tests.secondCase.SecondCaseTest;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -24,6 +23,7 @@ public class BaseTest {
     protected static WebDriverWait wait;
     protected static WebDriver decoratedDriver;
     protected String outputDir = "temp\\\\";
+
     @BeforeEach
     public void setUp() {
         String env = System.getProperty("browser", "chrome");

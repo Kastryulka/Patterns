@@ -17,4 +17,8 @@ public class JavaScriptHelper {
     public static void displayNone(WebElement webElement){
         String script = "arguments[0].style.display='none';";
         javascriptExecutor.executeScript(script, webElement);}
+    public static void scrollToTop(){
+        String script = "window.scrollTo(0, 0);";
+        javascriptExecutor.executeScript(script);
+    }
 }

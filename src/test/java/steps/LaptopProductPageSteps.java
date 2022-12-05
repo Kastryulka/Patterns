@@ -19,7 +19,7 @@ public class LaptopProductPageSteps {
         return laptopProductPage.getPageTitle();
     }
     public String getcharacteristicsTitle(){
-        return laptopProductPage.characteristicsTitle().getText();
+        return laptopProductPage.titleCharacteristicsTitle().getText();
     }
     public void showAllCharacteristics(){
         laptopProductPage.accordeonCharacteristics().show();
@@ -27,7 +27,7 @@ public class LaptopProductPageSteps {
     }
     public String getcharacteristicsRam(){
         showAllCharacteristics();
-        return laptopProductPage.characteristicsRam().getText();
+        return laptopProductPage.titleCharacteristicsRam().getText();
     }
 
 }

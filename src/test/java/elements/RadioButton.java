@@ -15,7 +15,6 @@ public class RadioButton extends BaseElement {
             webElement.click();
         }
     }
-
     public boolean isSelected() {
         return webElement.isSelected();
     }

@@ -1,5 +1,6 @@
 package loggers;
 
+import helpers.JavaScriptHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -32,39 +33,13 @@ public class WebDiverLogger implements WebDriverListener {
     public void afterFindElement(WebDriver driver, By locator, WebElement result){
         logger.info("Найден элемент");
         getScreenshotFull(driver,outputDir,"");
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        String script2 = "window.scrollTo(0, 0);";
-        js.executeScript(script2);
-
-        //чтение логов браузера
-        /*Logs logs = driver.manage().logs();
-        LogEntries logsEntries = logs.get(LogType.BROWSER);
-        List<LogEntry> logsEntriesWarningsList = logsEntries.getAll().stream()
-                .filter(a -> a.getLevel() == Level.WARNING)
-                .collect(Collectors.toList());
-        for (LogEntry logsEntry : logsEntriesWarningsList) {
-            logger.info(Date.from(Instant.ofEpochSecond(logsEntry.getTimestamp())) + " " +
-                    logsEntry.getLevel() + " " + logsEntry.getMessage());
-        }*/
+        JavaScriptHelper.scrollToTop();
     }
     @Override
     public void afterFindElements(WebDriver driver, By locator, List result){
         logger.info("Найдены элементы");
         getScreenshotFull(driver,outputDir,"");
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        String script2 = "window.scrollTo(0, 0);";
-        js.executeScript(script2);
-
-        //чтение логов браузера
-        /*Logs logs = driver.manage().logs();
-        LogEntries logsEntries = logs.get(LogType.BROWSER);
-        List<LogEntry> logsEntriesWarningsList = logsEntries.getAll().stream()
-                .filter(a -> a.getLevel() == Level.WARNING)
-                .collect(Collectors.toList());
-        for (LogEntry logsEntry : logsEntriesWarningsList) {
-            logger.info(Date.from(Instant.ofEpochSecond(logsEntry.getTimestamp())) + " " +
-                    logsEntry.getLevel() + " " + logsEntry.getMessage());
-        }*/
+        JavaScriptHelper.scrollToTop();
     }
     @Override
     public void afterGetText(WebElement element, String result){

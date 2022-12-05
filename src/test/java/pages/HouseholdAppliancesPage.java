@@ -14,11 +14,11 @@ import org.openqa.selenium.support.PageFactory;
 public class HouseholdAppliancesPage extends BasePage{
     private Logger logger = LogManager.getLogger(StartPage.class);
     @FindBy(xpath="//*[contains(@class,'city-select__text')]")
-    private WebElement selectedCity;
+    private WebElement buttonSelectedCity;
     @FindBy(xpath="//*[@class='subcategory__page-title']")
-    private WebElement subcategoryPageTitle;
+    private WebElement titleSubcategoryPage;
     @FindBy(xpath = "//*[text()='Техника для кухни']//ancestor::a[contains(@class ,'ui-link')]")
-    private WebElement kitchenAppliances;
+    private WebElement linkKitchenAppliances;
 
     public HouseholdAppliancesPage(WebDriver driver) {
         // Вызов родительского конструктора
@@ -28,12 +28,12 @@ public class HouseholdAppliancesPage extends BasePage{
     }
 
     public Button selectedCity() {
-        return new Button(selectedCity);
+        return new Button(buttonSelectedCity);
     }
-    public Title subcategoryPageTitle(){
-        return new Title(subcategoryPageTitle);
+    public Title titleSubcategoryPage(){
+        return new Title(titleSubcategoryPage);
     }
-    public Link kitchenAppliances(){
-        return new Link(kitchenAppliances);
+    public Link linkKitchenAppliances(){
+        return new Link(linkKitchenAppliances);
     }
 }

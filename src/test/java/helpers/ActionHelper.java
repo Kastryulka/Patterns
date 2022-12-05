@@ -7,17 +7,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 public class ActionHelper {
-    // Логгер
     private static Logger logger = LogManager.getLogger(ActionHelper.class);
-    // Экшен
     protected static Actions actions;
 
-    // Инициализация экшена
     public static void init(WebDriver driver) {
         actions = new Actions(driver);
     }
 
-    // Перемещение курсора мыши на элемент
     public static void moveToElement(WebElement webElement) {
         actions.moveToElement(webElement).perform();
     }
